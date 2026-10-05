@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0f2c">
+<title>Quiz de Segurança Digital (Java)</title>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: linear-gradient(160deg, #0a0f2c 0%, #140f36 55%, #1e1148 100%);
+    color: #eef0ff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  #aviso {
+    position: fixed; inset: 0; display: grid; place-content: center; text-align: center;
+    padding: 24px; gap: 10px; z-index: 0;
+  }
+  #aviso h1 { margin: 0; font-size: clamp(1.4rem, 5vw, 2rem); }
+  #aviso p { margin: 0; color: #a6abd8; max-width: 46ch; }
+  #erro { display: none; color: #ffb4c8; }
+  #tela { position: fixed; inset: 0; z-index: 1; }
+  a { color: #8fb4ff; }
+</style>
+</head>
+<body>
+<div id="aviso">
+  <h1>Carregando o quiz em Java…</h1>
+  <p>O Java roda direto no seu navegador. Na primeira vez pode levar alguns segundos.</p>
+  <p id="erro"></p>
+  <p>Prefere o programa para o computador?
+     <a href="quiz-seguranca-digital.jar">Baixe o .jar</a> e rode com <code>java -jar</code>.</p>
+</div>
+<div id="tela"></div>
+
+<script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
+<script>
+  (async function () {
+    try {
+      // Pasta desta página (funciona em github.io/usuario/repositorio/ e em servidor local)
+      const pasta = location.pathname.replace(/[^/]*$/, "");
+      await cheerpjInit({
+        version: 11,
+        javaProperties: ["quiz.embed=true", "quiz.dir=/files/quiz"]
+      });
+      cheerpjCreateDisplay(-1, -1, document.getElementById("tela"));
+      await cheerpjRunJar("/app" + pasta + "quiz-seguranca-digital.jar");
+    } catch (e) {
+      const erro = document.getElementById("erro");
+      erro.style.display = "block";
+      erro.textContent = "Não foi possível iniciar o Java no navegador: " + e;
+      console.error(e);
+    }
+  })();
+</script>
+</body>
+</html>

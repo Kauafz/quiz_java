@@ -7,7 +7,21 @@ final class QuizEngine {
     private QuizEngine() {
     }
 
-    record PartResult(String name, int hits, int total) {
+    static final class PartResult {
+        private final String name;
+        private final int hits;
+        private final int total;
+
+        PartResult(String name, int hits, int total) {
+            this.name = name;
+            this.hits = hits;
+            this.total = total;
+        }
+
+        String name() { return name; }
+        int hits() { return hits; }
+        int total() { return total; }
+
         int misses() {
             return total - hits;
         }
@@ -17,11 +31,65 @@ final class QuizEngine {
         }
     }
 
-    record Miss(int questionIndex, int part, String partName, int position, String text,
-                int chosen, String chosenText, int correct, String correctText, String explanation) {
+    static final class Miss {
+        private final int questionIndex;
+        private final int part;
+        private final String partName;
+        private final int position;
+        private final String text;
+        private final int chosen;
+        private final String chosenText;
+        private final int correct;
+        private final String correctText;
+        private final String explanation;
+
+        Miss(int questionIndex, int part, String partName, int position, String text,
+             int chosen, String chosenText, int correct, String correctText, String explanation) {
+            this.questionIndex = questionIndex;
+            this.part = part;
+            this.partName = partName;
+            this.position = position;
+            this.text = text;
+            this.chosen = chosen;
+            this.chosenText = chosenText;
+            this.correct = correct;
+            this.correctText = correctText;
+            this.explanation = explanation;
+        }
+
+        int questionIndex() { return questionIndex; }
+        int part() { return part; }
+        String partName() { return partName; }
+        int position() { return position; }
+        String text() { return text; }
+        int chosen() { return chosen; }
+        String chosenText() { return chosenText; }
+        int correct() { return correct; }
+        String correctText() { return correctText; }
+        String explanation() { return explanation; }
     }
 
-    record Result(int hits, int total, List<PartResult> parts, List<Miss> misses, boolean[] correct) {
+    static final class Result {
+        private final int hits;
+        private final int total;
+        private final List<PartResult> parts;
+        private final List<Miss> misses;
+        private final boolean[] correct;
+
+        Result(int hits, int total, List<PartResult> parts, List<Miss> misses, boolean[] correct) {
+            this.hits = hits;
+            this.total = total;
+            this.parts = parts;
+            this.misses = misses;
+            this.correct = correct;
+        }
+
+        int hits() { return hits; }
+        int total() { return total; }
+        List<PartResult> parts() { return parts; }
+        List<Miss> misses() { return misses; }
+        boolean[] correct() { return correct; }
+
         int errors() {
             return total - hits;
         }

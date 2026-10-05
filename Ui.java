@@ -122,16 +122,19 @@ final class Ui {
         }
 
         private static int childWidth(Component c, int w) {
-            if (c instanceof JComponent jc && jc.getClientProperty(WIDTH) instanceof Integer fixed) {
-                return Math.min(fixed, w);
+            if (c instanceof JComponent) {
+                Object fixed = ((JComponent) c).getClientProperty(WIDTH);
+                if (fixed instanceof Integer) {
+                    return Math.min((Integer) fixed, w);
+                }
             }
             return w;
         }
 
         private static int childHeight(Component c, int w) {
             int cw = childWidth(c, w);
-            if (c instanceof HeightForWidth h) {
-                return h.heightFor(cw);
+            if (c instanceof HeightForWidth) {
+                return ((HeightForWidth) c).heightFor(cw);
             }
             return c.getPreferredSize().height;
         }
@@ -165,7 +168,7 @@ final class Ui {
                 int cw = childWidth(c, w);
                 int h = childHeight(c, w);
                 int x = x0;
-                if (c instanceof JComponent jc && Boolean.TRUE.equals(jc.getClientProperty(CENTER))) {
+                if (c instanceof JComponent && Boolean.TRUE.equals(((JComponent) c).getClientProperty(CENTER))) {
                     x = x0 + (w - cw) / 2;
                 }
                 c.setBounds(x, y, cw, h);

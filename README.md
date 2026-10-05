@@ -15,9 +15,19 @@ Aplicativo desktop em **Java puro (Swing/Java2D)**, sem nenhuma biblioteca exter
 - Visual em azul e roxo e o **dragão voador**: corpo articulado, asas que batem, patas, cauda com barbatana, olhos que seguem o mouse e sopro de faíscas a cada nova pergunta. Dá para desligá-lo na caixa "Dragão animado".
 - Layout que se adapta à largura da janela.
 
-## Como jogar
+## Jogar pelo navegador (com link)
 
-Requisito: Java 17 ou superior.
+O `index.html` roda o mesmo programa Java dentro da página, usando o [CheerpJ](https://cheerpj.com) (uma máquina virtual Java em WebAssembly). Funciona no GitHub Pages:
+
+1. No repositório, abra **Settings > Pages**.
+2. Em **Branch**, escolha `main` e `/ (root)`, e clique em **Save**.
+3. Depois de 1 a 2 minutos o quiz fica em `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`.
+
+Observações: o `index.html` e o `quiz-seguranca-digital.jar` precisam ficar na mesma pasta; no navegador o ranking e o histórico ficam salvos no próprio navegador; o CheerpJ é gratuito para uso pessoal e não comercial.
+
+## Como jogar no computador
+
+Requisito: Java 11 ou superior.
 
 ```bash
 java -jar quiz-seguranca-digital.jar
@@ -35,7 +45,7 @@ build.bat           # Windows
 Ou manualmente:
 
 ```bash
-javac -encoding UTF-8 --release 17 -d out *.java
+javac -encoding UTF-8 --release 11 -d out *.java
 java -cp out Main
 ```
 

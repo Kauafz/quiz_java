@@ -16,7 +16,6 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.LinearGradientPaint;
 import java.awt.MouseInfo;
@@ -103,7 +102,7 @@ final class QuizApp {
         root.add(top, BorderLayout.NORTH);
         root.add(scroll, BorderLayout.CENTER);
 
-        timer = new Timer(16, e -> tick());
+        timer = new Timer(System.getProperty("quiz.embed") != null ? 33 : 16, e -> tick());
         timer.setCoalesce(true);
         showIntro();
     }
@@ -149,7 +148,7 @@ final class QuizApp {
             Point p = info.getLocation();
             SwingUtilities.convertPointFromScreen(p, root);
             return root.contains(p) ? p : null;
-        } catch (HeadlessException e) {
+        } catch (RuntimeException e) {
             return null;
         }
     }

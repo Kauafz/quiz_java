@@ -6,6 +6,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Histórico, ranking e estatísticas, guardados em um arquivo de texto na pasta do usuário.
@@ -13,7 +14,27 @@ import java.util.List;
  */
 final class HistoryStore {
 
-    record Attempt(long time, String name, int hits, int total, String bits) {
+    static final class Attempt {
+        private final long time;
+        private final String name;
+        private final int hits;
+        private final int total;
+        private final String bits;
+
+        Attempt(long time, String name, int hits, int total, String bits) {
+            this.time = time;
+            this.name = name;
+            this.hits = hits;
+            this.total = total;
+            this.bits = bits;
+        }
+
+        long time() { return time; }
+        String name() { return name; }
+        int hits() { return hits; }
+        int total() { return total; }
+        String bits() { return bits; }
+
         boolean named() {
             return !name.isBlank();
         }
@@ -79,7 +100,7 @@ final class HistoryStore {
                 .filter(Attempt::named)
                 .sorted(Comparator.comparingInt(Attempt::hits).reversed().thenComparingLong(Attempt::time))
                 .limit(limit)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /** Últimas tentativas, da mais recente para a mais antiga. */
@@ -87,7 +108,7 @@ final class HistoryStore {
         return all().stream()
                 .sorted(Comparator.comparingLong(Attempt::time).reversed())
                 .limit(limit)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /** Quantas vezes cada pergunta foi errada, somando todas as tentativas. */
